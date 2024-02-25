@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CustomInput from "../components/CustomInput";
 import LoadingBar from "../components/LoadingBar";
-import { addTheCategory } from "../features/category/categorySlice";
+import { addTheCategory } from "../features/product category/productCategorySlice";
 
 const AddCategory = () => {
   const dispatch = useDispatch();

@@ -8,7 +8,6 @@ import ImgCrop from "antd-img-crop";
 
 const AddProduct = () => {
   const [description, setDescription] = useState();
-  const [isLoading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -26,13 +25,6 @@ const AddProduct = () => {
     image.src = src;
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
-  };
-
-  const startoading = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 4000);
   };
 
   const handleDesc = (e) => {
@@ -79,17 +71,10 @@ const AddProduct = () => {
               </Upload>
             </ImgCrop>
           </div>
-          {!isLoading ? (
-            <div className="d-flex justify-content-center align-content-center ">
-              <button className="add-button mt-3" onClick={startoading}>
-                Add Product
-              </button>
-            </div>
-          ) : (
-            <div className="d-flex justify-content-center align-content-center">
-              <span className="loader mt-3"></span>
-            </div>
-          )}
+
+          <div className="d-flex justify-content-center align-content-center ">
+            <button className="add-button mt-3">Add Product</button>
+          </div>
         </form>
       </div>
     </div>

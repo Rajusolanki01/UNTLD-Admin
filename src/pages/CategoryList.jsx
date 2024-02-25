@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategories } from "../features/category/categorySlice";
+import { getAllCategories } from "../features/product category/productCategorySlice";
 import LoadingBar from "../components/LoadingBar";
 import EditButton from "../components/EditButton";
 import DeleteButton from "../components/DeleteButton";

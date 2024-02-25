@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { colorService } from "./colorService";
+import { categoryService } from "./productCategoryService";
 
-export const getAllColors = createAsyncThunk(
-  "color/get-all-colors",
+export const getAllCategories = createAsyncThunk(
+  "category/get-all-categories",
   async (_, thunkAPI) => {
     try {
-      return await colorService.getColor();
+      return await categoryService.getCategory();
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error?.response?.result?.message || error
@@ -14,11 +14,11 @@ export const getAllColors = createAsyncThunk(
   }
 );
 
-export const addTheColor = createAsyncThunk(
-  "color/add-color",
+export const addTheCategory = createAsyncThunk(
+  "category/add-category",
   async (userData, thunkAPI) => {
     try {
-      return await colorService.addColor(userData);
+      return await categoryService.addCategory(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error?.response?.result?.message || error
@@ -27,13 +27,13 @@ export const addTheColor = createAsyncThunk(
   }
 );
 
-export const deleteTheColor = createAsyncThunk(
-  "color/delete-color",
-  async (colorId, thunkAPI) => {
+export const deleteTheCategory = createAsyncThunk(
+  "category/delete-category",
+  async (categoryId, thunkAPI) => {
     try {
-      await colorService.deleteColor(colorId);
-      thunkAPI.dispatch(getAllColors);
-      return colorId;
+      await categoryService.deleteCategory(categoryId);
+      thunkAPI.dispatch(getAllCategories);
+      return categoryId;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error?.response?.result?.message || error
@@ -42,63 +42,63 @@ export const deleteTheColor = createAsyncThunk(
   }
 );
 
-const colorInitialState = {
-  colors: [],
-  addColor: "",
+const categoryInitialState = {
+  categories: [],
+  addCategory: "",
   isLoading: false,
   isError: false,
   isSuccess: false,
   isMessage: "",
 };
 
-export const colorSlice = createSlice({
-  name: "color",
-  initialState: colorInitialState,
+export const categorySlice = createSlice({
+  name: "category",
+  initialState: categoryInitialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllColors.pending, (state) => {
+      .addCase(getAllCategories.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAllColors.fulfilled, (state, action) => {
+      .addCase(getAllCategories.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.colors = action.payload;
+        state.categories = action.payload;
       })
-      .addCase(getAllColors.rejected, (state, action) => {
+      .addCase(getAllCategories.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.isMessage = action.error;
       })
-      .addCase(addTheColor.pending, (state) => {
+      .addCase(addTheCategory.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(addTheColor.fulfilled, (state, action) => {
+      .addCase(addTheCategory.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.addcolor = action.payload;
+        state.addCategory = action.payload;
       })
-      .addCase(addTheColor.rejected, (state, action) => {
+      .addCase(addTheCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.isMessage = action.error;
       })
-      .addCase(deleteTheColor.pending, (state) => {
+      .addCase(deleteTheCategory.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteTheColor.fulfilled, (state, action) => {
+      .addCase(deleteTheCategory.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.colors = state.colors.filter(
-          (color) => color._id !== action.payload
+        state.categories = state.categories.filter(
+          (category) => category._id !== action.payload
         );
       })
-      .addCase(deleteTheColor.rejected, (state, action) => {
+      .addCase(deleteTheCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -107,4 +107,4 @@ export const colorSlice = createSlice({
   },
 });
 
-export default colorSlice.reducer;
+export default categorySlice.reducer;

@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { categoryService } from "./categoryService";
+import { blogService } from "./blogService";
 
-export const getAllCategories = createAsyncThunk(
-  "category/get-all-category",
+export const getAllBlogs = createAsyncThunk(
+  "blog/get-all-blogs",
   async (_, thunkAPI) => {
     try {
-      return await categoryService.getCategory();
+      return await blogService.getBlogs();
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error?.response?.result?.message || error
@@ -14,11 +14,11 @@ export const getAllCategories = createAsyncThunk(
   }
 );
 
-export const addTheCategory = createAsyncThunk(
-  "category/add-category",
+export const addTheBlog = createAsyncThunk(
+  "blog/add-blog",
   async (userData, thunkAPI) => {
     try {
-      return await categoryService.addCategory(userData);
+      return await blogService.addBlog(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error?.response?.result?.message || error
@@ -27,13 +27,13 @@ export const addTheCategory = createAsyncThunk(
   }
 );
 
-export const deleteTheCategory = createAsyncThunk(
-  "category/delete-category",
-  async (categoryId, thunkAPI) => {
+export const deleteTheBlog = createAsyncThunk(
+  "blog/delete-blog",
+  async (blogId, thunkAPI) => {
     try {
-      await categoryService.deleteCategory(categoryId);
-      thunkAPI.dispatch(getAllCategories);
-      return categoryId;
+      await blogService.deleteBlog(blogId);
+      thunkAPI.dispatch(getAllBlogs);
+      return blogId;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error?.response?.result?.message || error
@@ -42,63 +42,61 @@ export const deleteTheCategory = createAsyncThunk(
   }
 );
 
-const categoryInitialState = {
-  categories: [],
-  addCategory: "",
+const blogInitialState = {
+  blogs: [],
+  addBlog: "",
   isLoading: false,
   isError: false,
   isSuccess: false,
   isMessage: "",
 };
 
-export const categorySlice = createSlice({
-  name: "category",
-  initialState: categoryInitialState,
+export const blogSlice = createSlice({
+  name: "blog",
+  initialState: blogInitialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllCategories.pending, (state) => {
+      .addCase(getAllBlogs.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAllCategories.fulfilled, (state, action) => {
+      .addCase(getAllBlogs.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.categories = action.payload;
+        state.blogs = action.payload;
       })
-      .addCase(getAllCategories.rejected, (state, action) => {
+      .addCase(getAllBlogs.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.isMessage = action.error;
       })
-      .addCase(addTheCategory.pending, (state) => {
+      .addCase(addTheBlog.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(addTheCategory.fulfilled, (state, action) => {
+      .addCase(addTheBlog.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.addCategory = action.payload;
+        state.addBlog = action.payload;
       })
-      .addCase(addTheCategory.rejected, (state, action) => {
+      .addCase(addTheBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.isMessage = action.error;
       })
-      .addCase(deleteTheCategory.pending, (state) => {
+      .addCase(deleteTheBlog.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteTheCategory.fulfilled, (state, action) => {
+      .addCase(deleteTheBlog.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.categories = state.categories.filter(
-          (category) => category._id !== action.payload
-        );
+        state.blogs = state.blogs.filter((blog) => blog._id !== action.payload);
       })
-      .addCase(deleteTheCategory.rejected, (state, action) => {
+      .addCase(deleteTheBlog.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -107,4 +105,4 @@ export const categorySlice = createSlice({
   },
 });
 
-export default categorySlice.reducer;
+export default blogSlice.reducer;

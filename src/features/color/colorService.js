@@ -1,6 +1,6 @@
 import { axiosClientService } from "../../utils/axiosConfig";
 
-const getcolor = async () => {
+const getColor = async () => {
   try {
     const response = await axiosClientService.get("color");
     return response.result;
@@ -9,7 +9,7 @@ const getcolor = async () => {
   }
 };
 
-const addcolor = async (userData) => {
+const addColor = async (userData) => {
   try {
     const response = await axiosClientService.post("color", userData);
     return response.result;
@@ -17,7 +17,7 @@ const addcolor = async (userData) => {
     throw error;
   }
 };
-const deletecolor = async (colorId) => {
+const deleteColor = async (colorId) => {
   try {
     const response = await axiosClientService.delete(`color/${colorId}`);
     return response.result;
@@ -27,7 +27,7 @@ const deletecolor = async (colorId) => {
 };
 
 export const colorService = {
-  getcolor,
-  addcolor,
-  deletecolor,
+  getColor,
+  addColor,
+  deleteColor,
 };

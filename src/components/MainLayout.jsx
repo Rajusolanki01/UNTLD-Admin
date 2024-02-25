@@ -106,14 +106,14 @@ const MainLayout = () => {
                   label: "Brand List",
                 },
                 {
-                  key: "add-category",
+                  key: "add-product-category",
                   icon: <MdOutlineCategory className="fss" />,
-                  label: "Add Category",
+                  label: "Add Product Category",
                 },
                 {
-                  key: "category-list",
+                  key: "product-category-list",
                   icon: <MdOutlineCategory className="fss" />,
-                  label: "Category List",
+                  label: "Product Category List",
                 },
                 {
                   key: "add-color",

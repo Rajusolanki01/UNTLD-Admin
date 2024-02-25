@@ -4,9 +4,12 @@ import { useDispatch } from "react-redux";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { deleteTheProduct } from "../features/product/productSlice";
 import { deleteTheBrand } from "../features/brand/brandSlice";
-import { deleteTheCategory } from "../features/category/categorySlice";
+import { deleteTheCategory } from "../features/product category/productCategorySlice";
 import { deleteTheColor } from "../features/color/colorSlice";
 import { deleteTheCoupon } from "../features/coupon/couponSlice";
+import { deleteTheBlog } from "../features/blogs/blogSlice";
+import { deleteTheBlogCategory } from "../features/blog Category/blogCategorySlice";
+import { deleteTheEnquiries } from "../features/enquiry/enquirySlice";
 
 const DeleteButton = ({
   productId,
@@ -14,6 +17,9 @@ const DeleteButton = ({
   categoryId,
   colorId,
   couponId,
+  blogId,
+  blogCategoryId,
+  enquiryId,
 }) => {
   const dispatch = useDispatch();
 
@@ -44,6 +50,15 @@ const DeleteButton = ({
         }
         if (couponId) {
           dispatch(deleteTheCoupon(couponId));
+        }
+        if (blogId) {
+          dispatch(deleteTheBlog(blogId));
+        }
+        if (blogCategoryId) {
+          dispatch(deleteTheBlogCategory(blogCategoryId));
+        }
+        if (enquiryId) {
+          dispatch(deleteTheEnquiries(enquiryId));
         }
       },
     });
