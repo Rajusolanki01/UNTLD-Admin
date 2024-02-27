@@ -17,6 +17,19 @@ const addTheBlogCategory = async (userData) => {
     throw error;
   }
 };
+
+const updateBlogCategory = async (blogCategoryId, title) => {
+  try {
+    const response = await axiosClientService.put(`blogcategory/${blogCategoryId}`, {
+      title: title,
+    });
+
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteTheBlogCategory = async (blogCategoryId) => {
   try {
     const response = await axiosClientService.delete(
@@ -31,5 +44,6 @@ const deleteTheBlogCategory = async (blogCategoryId) => {
 export const blogCategoryService = {
   getBlogCategoires,
   addTheBlogCategory,
+  updateBlogCategory,
   deleteTheBlogCategory,
 };

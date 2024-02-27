@@ -27,6 +27,19 @@ export const addTheCategory = createAsyncThunk(
   }
 );
 
+export const updateTheCategoryTitle = createAsyncThunk(
+  "category/update-Category",
+  async ({ categoryId, title }, thunkAPI) => {
+    try {
+      await categoryService.updateCategory(categoryId, title);
+      thunkAPI.dispatch(getAllCategories);
+      return { categoryId, title };
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const deleteTheCategory = createAsyncThunk(
   "category/delete-category",
   async (categoryId, thunkAPI) => {
@@ -82,6 +95,24 @@ export const categorySlice = createSlice({
         state.addCategory = action.payload;
       })
       .addCase(addTheCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isMessage = action.error;
+      })
+      .addCase(updateTheCategoryTitle.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTheCategoryTitle.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        const { categoryId, title } = action.payload;
+        state.categories = state.categories.map((category) =>
+          category._id === categoryId ? { ...category, title: title } : category
+        );
+      })
+      .addCase(updateTheCategoryTitle.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

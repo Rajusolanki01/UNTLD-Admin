@@ -27,6 +27,20 @@ export const addTheCoupon = createAsyncThunk(
   }
 );
 
+export const updateTheCoupon = createAsyncThunk(
+  "brand/update-coupon",
+  async (userData, thunkAPI) => {
+    try {
+      const { couponId, ...data } = userData;
+      await couponService.updateCoupon(couponId, data);
+      thunkAPI.dispatch(getAllCoupons);
+      return { couponId, data };
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const deleteTheCoupon = createAsyncThunk(
   "color/delete-color",
   async (couponId, thunkAPI) => {
@@ -82,6 +96,24 @@ export const couponSlice = createSlice({
         state.addCoupon = action.payload;
       })
       .addCase(addTheCoupon.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isMessage = action.error;
+      })
+      .addCase(updateTheCoupon.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTheCoupon.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        const { couponId, data } = action.payload;
+        state.coupons = state.coupons.map((coupon) =>
+          coupon._id === couponId ? { ...coupon, ...data } : coupon
+        );
+      })
+      .addCase(updateTheCoupon.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

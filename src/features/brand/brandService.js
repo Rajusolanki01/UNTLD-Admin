@@ -18,6 +18,18 @@ const createBrand = async (userData) => {
   }
 };
 
+const updateBrand = async (brandId, title) => {
+  try {
+    const response = await axiosClientService.put(`brand/${brandId}`, {
+      title: title,
+    });
+
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteBrand = async (deleteId) => {
   try {
     const response = await axiosClientService.delete(`brand/${deleteId}`);
@@ -30,5 +42,6 @@ const deleteBrand = async (deleteId) => {
 export const brandService = {
   getBrands,
   createBrand,
+  updateBrand,
   deleteBrand,
 };

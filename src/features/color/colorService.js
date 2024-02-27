@@ -17,6 +17,21 @@ const addColor = async (userData) => {
     throw error;
   }
 };
+
+const updateColor = async (updateColorId, updateColor) => {
+  try {
+    const response = await axiosClientService.put(
+      `color/${updateColorId}`,
+      { status: updateColor }
+    );
+
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 const deleteColor = async (colorId) => {
   try {
     const response = await axiosClientService.delete(`color/${colorId}`);
@@ -29,5 +44,6 @@ const deleteColor = async (colorId) => {
 export const colorService = {
   getColor,
   addColor,
+  updateColor,
   deleteColor,
 };

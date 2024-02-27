@@ -13,20 +13,20 @@ export const getAllEnquiries = createAsyncThunk(
     }
   }
 );
-export const updateTheEnquiries = createAsyncThunk(
-  "enquiry/update-enquiry",
-  async (updateEnquiryId, userData, thunkAPI) => {
+
+export const updateTheEnquiriesStatus = createAsyncThunk(
+  "enquiry/update-enquiry-status",
+  async ({ updateEnquiryId, statusEnquiry }, thunkAPI) => {
     try {
-      await enquiryService.deleteEnquiry(updateEnquiryId, userData);
+      await enquiryService.updateEnquiry(updateEnquiryId, statusEnquiry);
       thunkAPI.dispatch(getAllEnquiries);
-      return updateEnquiryId;
+      return { updateEnquiryId, statusEnquiry };
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error?.response?.result?.message || error
-      );
+      throw error;
     }
   }
 );
+
 export const deleteTheEnquiries = createAsyncThunk(
   "enquiry/delete-enquiry",
   async (enquiryId, thunkAPI) => {
@@ -72,22 +72,26 @@ export const enquirySlice = createSlice({
         state.isSuccess = false;
         state.isMessage = action.error;
       })
-      .addCase(updateTheEnquiries.pending, (state) => {
+      .addCase(updateTheEnquiriesStatus.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateTheEnquiries.fulfilled, (state, action) => {
+      .addCase(updateTheEnquiriesStatus.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.enquiryStatus = action.payload;
+        const { updateEnquiryId, statusEnquiry } = action.payload;
+        state.enquiries = state.enquiries.map((enquiry) =>
+          enquiry._id === updateEnquiryId
+            ? { ...enquiry, status: statusEnquiry }
+            : enquiry
+        );
       })
-      .addCase(updateTheEnquiries.rejected, (state, action) => {
+      .addCase(updateTheEnquiriesStatus.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.isMessage = action.error;
       })
-
       .addCase(deleteTheEnquiries.pending, (state) => {
         state.isLoading = true;
       })

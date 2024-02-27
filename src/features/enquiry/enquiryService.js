@@ -9,12 +9,13 @@ const getenquiries = async () => {
   }
 };
 
-const updateEnquiry = async (updateEnquiryId, userData) => {
+const updateEnquiry = async (updateEnquiryId, statusEnquiry) => {
   try {
     const response = await axiosClientService.put(
       `enquiry/${updateEnquiryId}`,
-      userData
+      { status: statusEnquiry }
     );
+
     return response.result;
   } catch (error) {
     throw error;

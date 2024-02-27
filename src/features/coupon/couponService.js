@@ -18,6 +18,16 @@ const addCoupon = async (userData) => {
   }
 };
 
+const updateCoupon = async (couponId, data) => {
+  try {
+    const response = await axiosClientService.put(`coupon/${couponId}`, data);
+
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteCoupon = async (couponId) => {
   try {
     const response = await axiosClientService.delete(`coupon/${couponId}`);
@@ -30,5 +40,6 @@ const deleteCoupon = async (couponId) => {
 export const couponService = {
   getCoupon,
   addCoupon,
+  updateCoupon,
   deleteCoupon,
 };

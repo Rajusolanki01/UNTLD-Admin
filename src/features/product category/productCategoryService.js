@@ -18,6 +18,18 @@ const addCategory = async (userData) => {
   }
 };
 
+const updateCategory = async (categoryId, title) => {
+  try {
+    const response = await axiosClientService.put(`category/${categoryId}`, {
+      title: title,
+    });
+
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteCategory = async (categoryId) => {
   try {
     const response = await axiosClientService.delete(`category/${categoryId}`);
@@ -30,5 +42,6 @@ const deleteCategory = async (categoryId) => {
 export const categoryService = {
   getCategory,
   addCategory,
+  updateCategory,
   deleteCategory,
 };
