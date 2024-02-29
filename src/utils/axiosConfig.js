@@ -7,7 +7,6 @@ import {
 } from "./localStorageManager";
 import toast from "react-hot-toast";
 
-
 let baseURL = process.env.REACT_APP_SERVER_BASE_URL;
 
 export const axiosClientService = axios.create({
@@ -81,7 +80,14 @@ axiosClientService.interceptors.response.use(
     return Promise.reject(error);
   },
   async (error) => {
-    toast.error(error);
+    // Handle 404 error here
+    if (error.response && error.response.status === 404) {
+      toast.error("Server not found. Please try again later.");
+    } else {
+      toast.error(error);
+    }
     return Promise.reject(error);
   }
 );
+
+export default axiosClientService;

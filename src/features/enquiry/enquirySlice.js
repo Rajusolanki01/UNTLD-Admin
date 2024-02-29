@@ -65,6 +65,7 @@ export const enquirySlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.enquiries = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getAllEnquiries.rejected, (state, action) => {
         state.isLoading = false;
@@ -85,6 +86,7 @@ export const enquirySlice = createSlice({
             ? { ...enquiry, status: statusEnquiry }
             : enquiry
         );
+        state.isMessage = "success";
       })
       .addCase(updateTheEnquiriesStatus.rejected, (state, action) => {
         state.isLoading = false;
@@ -102,6 +104,7 @@ export const enquirySlice = createSlice({
         state.enquiries = state.enquiries.filter(
           (enquiry) => enquiry._id !== action.payload
         );
+        state.isMessage = "success";
       })
       .addCase(deleteTheEnquiries.rejected, (state, action) => {
         state.isLoading = false;

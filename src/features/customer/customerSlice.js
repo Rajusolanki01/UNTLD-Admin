@@ -69,6 +69,7 @@ export const customerSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.customers = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getAllUsers.rejected, (state, action) => {
         state.isLoading = false;
@@ -84,6 +85,7 @@ export const customerSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.singleCustomer = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getaSingleUsers.rejected, (state, action) => {
         state.isLoading = false;
@@ -99,6 +101,7 @@ export const customerSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.isBlockedUser = action.payload;
+        state.isMessage = "success";
       })
       .addCase(blockAUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -114,6 +117,7 @@ export const customerSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.isBlockedUser = action.payload;
+        state.isMessage = "success";
       })
       .addCase(unblockAUser.rejected, (state, action) => {
         state.isLoading = false;

@@ -78,6 +78,7 @@ export const categorySlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.categories = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getAllCategories.rejected, (state, action) => {
         state.isLoading = false;
@@ -93,6 +94,7 @@ export const categorySlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.addCategory = action.payload;
+        state.isMessage = "success";
       })
       .addCase(addTheCategory.rejected, (state, action) => {
         state.isLoading = false;
@@ -111,6 +113,7 @@ export const categorySlice = createSlice({
         state.categories = state.categories.map((category) =>
           category._id === categoryId ? { ...category, title: title } : category
         );
+        state.isMessage = "success";
       })
       .addCase(updateTheCategoryTitle.rejected, (state, action) => {
         state.isLoading = false;
@@ -128,6 +131,7 @@ export const categorySlice = createSlice({
         state.categories = state.categories.filter(
           (category) => category._id !== action.payload
         );
+        state.isMessage = "success";
       })
       .addCase(deleteTheCategory.rejected, (state, action) => {
         state.isLoading = false;

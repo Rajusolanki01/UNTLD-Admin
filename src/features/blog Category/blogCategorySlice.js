@@ -78,6 +78,7 @@ export const blogCategorySlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.blogCategories = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getAllBlogCategories.rejected, (state, action) => {
         state.isLoading = false;
@@ -93,6 +94,7 @@ export const blogCategorySlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.addBlogCategory = action.payload;
+        state.isMessage = "success";
       })
       .addCase(addTheBlogCategory.rejected, (state, action) => {
         state.isLoading = false;
@@ -113,6 +115,7 @@ export const blogCategorySlice = createSlice({
             ? { ...blogcategory, title: title }
             : blogcategory
         );
+        state.isMessage = "success";
       })
       .addCase(updateTheBlogCategoryTitle.rejected, (state, action) => {
         state.isLoading = false;
@@ -130,6 +133,7 @@ export const blogCategorySlice = createSlice({
         state.blogCategories = state.blogCategories.filter(
           (blogCategory) => blogCategory._id !== action.payload
         );
+        state.isMessage = "success";
       })
       .addCase(deleteTheBlogCategory.rejected, (state, action) => {
         state.isLoading = false;

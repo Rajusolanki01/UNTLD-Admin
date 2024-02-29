@@ -78,6 +78,7 @@ export const brandSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.brands = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getAllBrands.rejected, (state, action) => {
         state.isLoading = false;
@@ -93,6 +94,7 @@ export const brandSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.addBrand = action.payload;
+        state.isMessage = "success";
       })
       .addCase(addBrand.rejected, (state, action) => {
         state.isLoading = false;
@@ -107,10 +109,11 @@ export const brandSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        const { brandId, title } = action.payload;    
+        const { brandId, title } = action.payload;
         state.brands = state.brands.map((brand) =>
           brand._id === brandId ? { ...brand, title: title } : brand
         );
+        state.isMessage = "success";
       })
       .addCase(updateTheBrandTitle.rejected, (state, action) => {
         state.isLoading = false;
@@ -128,6 +131,7 @@ export const brandSlice = createSlice({
         state.brands = state.brands.filter(
           (brand) => brand._id !== action.payload
         );
+        state.isMessage = "success";
       })
       .addCase(deleteTheBrand.rejected, (state, action) => {
         state.isLoading = false;

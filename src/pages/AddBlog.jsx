@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
+import { useDispatch, useSelector } from "react-redux";
+import LoadingBar from "../components/LoadingBar";
+import { getAllBlogCategories } from "../features/blog Category/blogCategorySlice";
 
 const AddBlog = () => {
-  const [description, setDescription] = useState();
+  const dispatch = useDispatch();
+  const [description, setDescription] = useState("");
+  const [blogCategory, setBlogCategory] = useState("");
   const [fileList, setFileList] = useState([]);
+  const blogCategoryState = useSelector((state) => state.blogCategory);
+  const { blogCategories, isLoading } = blogCategoryState;
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
@@ -27,8 +34,20 @@ const AddBlog = () => {
   };
 
   const handleDesc = (e) => {
-    setDescription(e);
+    setDescription(e.target.value);
   };
+
+  useEffect(() => {
+    dispatch(getAllBlogCategories());
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="LoadingBar">
+        <LoadingBar />
+      </div>
+    );
+  }
   return (
     <div>
       <h3 className="mb-4">Add Blogs</h3>
@@ -48,15 +67,24 @@ const AddBlog = () => {
             </ImgCrop>
           </div>
           <CustomInput type="text" label="Enter Blog Title" />
-          <select name="" id="" className="form-control form-select  mb-3">
-            <option value="">Select Blog Category</option>
+          <select
+            name=""
+            id=""
+            className="form-control form-select  mb-3"
+            onClick={(e) => setBlogCategory(e.target.value)}
+          >
+            {blogCategories.map((blogCategory, index) => (
+              <option key={index} value={blogCategory.title}>
+                {blogCategory.title}
+              </option>
+            ))}
           </select>
           <ReactQuill
             className="bg-white quill"
             theme="snow"
             value={description}
-            onChange={(evt) => {
-              handleDesc(evt);
+            onChange={(e) => {
+              handleDesc(e);
             }}
           />
 

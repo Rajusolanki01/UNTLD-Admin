@@ -12,6 +12,17 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const getAllUsersOrders = createAsyncThunk(
+  "auth/get-all-orders",
+  async (_, thunkAPI) => {
+    try {
+      return await authService.getOrders();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message || error);
+    }
+  }
+);
+
 export const forgortPasswordUser = createAsyncThunk(
   "auth/forgotPassword",
   async (userData, thunkAPI) => {
@@ -45,6 +56,7 @@ const userDefaultState = {
 
 const userInitialState = {
   user: userDefaultState,
+  orders: [],
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -71,6 +83,23 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.isMessage = action.payload;
+        state.isMessage = "success";
+      })
+      .addCase(getAllUsersOrders.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUsersOrders.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.orders = action.payload;
+        state.isMessage = "success";
+      })
+      .addCase(getAllUsersOrders.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isMessage = action.payload;
       })
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
@@ -80,6 +109,7 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.user = action.payload;
+        state.isMessage = "success";
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -95,6 +125,7 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.user = action.payload;
+        state.isMessage = "success";
       })
       .addCase(forgortPasswordUser.rejected, (state, action) => {
         state.isLoading = false;

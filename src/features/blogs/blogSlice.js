@@ -44,7 +44,7 @@ export const deleteTheBlog = createAsyncThunk(
 
 const blogInitialState = {
   blogs: [],
-  addBlog: "",
+  addBlog: {},
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -65,6 +65,7 @@ export const blogSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.blogs = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getAllBlogs.rejected, (state, action) => {
         state.isLoading = false;
@@ -80,6 +81,7 @@ export const blogSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.addBlog = action.payload;
+        state.isMessage = "success";
       })
       .addCase(addTheBlog.rejected, (state, action) => {
         state.isLoading = false;
@@ -95,6 +97,7 @@ export const blogSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.blogs = state.blogs.filter((blog) => blog._id !== action.payload);
+        state.isMessage = "success";
       })
       .addCase(deleteTheBlog.rejected, (state, action) => {
         state.isLoading = false;

@@ -51,6 +51,7 @@ export const productSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.products = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
@@ -68,6 +69,7 @@ export const productSlice = createSlice({
         state.products = state.products.filter(
           (product) => product._id !== action.payload
         );
+        state.isMessage = "success";
       })
       .addCase(deleteTheProduct.rejected, (state, action) => {
         state.isLoading = false;

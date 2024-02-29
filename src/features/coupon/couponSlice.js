@@ -79,6 +79,7 @@ export const couponSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.coupons = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getAllCoupons.rejected, (state, action) => {
         state.isLoading = false;
@@ -94,6 +95,7 @@ export const couponSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.addCoupon = action.payload;
+        state.isMessage = "success";
       })
       .addCase(addTheCoupon.rejected, (state, action) => {
         state.isLoading = false;
@@ -112,6 +114,7 @@ export const couponSlice = createSlice({
         state.coupons = state.coupons.map((coupon) =>
           coupon._id === couponId ? { ...coupon, ...data } : coupon
         );
+        state.isMessage = "success";
       })
       .addCase(updateTheCoupon.rejected, (state, action) => {
         state.isLoading = false;
@@ -129,6 +132,7 @@ export const couponSlice = createSlice({
         state.coupons = state.coupons.filter(
           (coupon) => coupon._id !== action.payload
         );
+        state.isMessage = "success";
       })
       .addCase(deleteTheCoupon.rejected, (state, action) => {
         state.isLoading = false;

@@ -35,7 +35,7 @@ const columns = [
     ),
   },
   {
-    title: "Actions",
+    title: "Profile",
     dataIndex: "actions",
     render: (_, record) => {
       return (

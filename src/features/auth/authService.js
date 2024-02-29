@@ -16,6 +16,14 @@ const login = async (userData) => {
     throw error;
   }
 };
+const getOrders = async () => {
+  try {
+    const response = await axiosClientService.get("user/getallorders");
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const forgotPassword = async (userData) => {
   try {
@@ -29,7 +37,6 @@ const forgotPassword = async (userData) => {
   }
 };
 
-
 const logout = async (userData) => {
   try {
     const response = await axiosClientService.get("user/logout", userData);
@@ -41,6 +48,7 @@ const logout = async (userData) => {
 
 export const authService = {
   login,
+  getOrders,
   forgotPassword,
   logout,
 };

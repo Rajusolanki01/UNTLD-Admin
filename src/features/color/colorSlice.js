@@ -65,6 +65,7 @@ export const colorSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.colors = action.payload;
+        state.isMessage = "success";
       })
       .addCase(getAllColors.rejected, (state, action) => {
         state.isLoading = false;
@@ -80,6 +81,7 @@ export const colorSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.addcolor = action.payload;
+        state.isMessage = "success";
       })
       .addCase(addTheColor.rejected, (state, action) => {
         state.isLoading = false;
@@ -97,6 +99,7 @@ export const colorSlice = createSlice({
         state.colors = state.colors.filter(
           (color) => color._id !== action.payload
         );
+        state.isMessage = "success";
       })
       .addCase(deleteTheColor.rejected, (state, action) => {
         state.isLoading = false;
