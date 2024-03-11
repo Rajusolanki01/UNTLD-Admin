@@ -22,7 +22,7 @@ import AddCategory from "./pages/AddCategory";
 import AddBrand from "./pages/AddBrand";
 import AddProduct from "./pages/AddProduct";
 import AddCoupon from "./pages/AddCoupon";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "sonner";
 import RequireUserAuth from "./AuthenticationAccess/RequireUserAuth";
 import OnlyIfNotLoggedIn from "./AuthenticationAccess/OnlyIfNotLoggedIn";
 import CustomerProfile from "./pages/CustomerProfile";
@@ -67,7 +67,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-center" expand={false} />
     </>
   );
 }

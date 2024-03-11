@@ -5,7 +5,7 @@ import {
   removeItem,
   setItem,
 } from "./localStorageManager";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 let baseURL = process.env.REACT_APP_SERVER_BASE_URL;
 
