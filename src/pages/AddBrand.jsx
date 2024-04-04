@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import CustomInput from "../components/CustomInput";
 import { addBrand } from "../features/brand/brandSlice";
 import LoadingBar from "../components/LoadingBar";
+import { useNavigate } from "react-router-dom";
 
 const AddBrand = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLoading = useSelector((state) => state.brand.isLoading);
   const [brandName, setBrandName] = useState("");
 
@@ -16,6 +18,9 @@ const AddBrand = () => {
     }
     dispatch(addBrand({ title: brandName }));
     setBrandName("");
+    setTimeout(() => {
+      navigate("/dashboard/brand-list");
+    }, 2000);
   };
 
   if (isLoading) {

@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllProducts,
-} from "../features/product/productSlice";
+import { getAllProducts } from "../features/product/productSlice";
 import LoadingBar from "../components/LoadingBar";
 import { Link } from "react-router-dom";
 import EditButton from "../components/EditButton";
@@ -53,7 +51,7 @@ const columns = [
     dataIndex: "actions",
     render: (_, record) => (
       <div className="d-flex gap-2">
-        <Link to={`/product-edit/${record._id}`}>
+        <Link to={`/dashboard/add-product/${record._id}`}>
           <EditButton />
         </Link>{" "}
         <div>

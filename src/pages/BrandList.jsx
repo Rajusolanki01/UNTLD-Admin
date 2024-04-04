@@ -6,10 +6,9 @@ import {
   updateTheBrandTitle,
 } from "../features/brand/brandSlice";
 import LoadingBar from "../components/LoadingBar";
-
 import DeleteButton from "../components/DeleteButton";
 import CustomInput from "../components/CustomInput";
-
+import { changeDateFormat } from "../utils/dateFormat";
 
 const columns = [
   {
@@ -41,8 +40,8 @@ const BrandList = () => {
   const data = brands?.map((brand, index) => ({
     key: index + 1,
     title: brand.title,
-    createdAt: new Date(brand.createdAt).toLocaleString(),
-    updatedAt: new Date(brand.updatedAt).toLocaleString(),
+    createdAt: changeDateFormat(brand.createdAt),
+    updatedAt: changeDateFormat(brand.updatedAt),
     _id: brand._id,
   }));
 
@@ -121,7 +120,7 @@ const BrandList = () => {
         <CustomInput
           style={{ width: 100 }}
           type="text"
-          label="Enter the Brand"
+          label={"Enter New Brand Name"}
           value={brandName}
           onChange={(e) => setBrandName(e.target.value)}
         />

@@ -5,6 +5,7 @@ import { getAllUsersOrders } from "../features/auth/authSlice";
 import LoadingBar from "../components/LoadingBar";
 import DeleteButton from "../components/DeleteButton";
 import EditButton from "../components/EditButton";
+import { changeDateFormat } from "../utils/dateFormat";
 
 const columns = [
   {
@@ -45,7 +46,7 @@ const Orders = () => {
       );
     }),
     paymentIntent: `₹ ${order.paymentIntent.amount}`,
-    createdAt: new Date(order.createdAt).toLocaleString(),
+    createdAt: changeDateFormat(order.createdAt),
 
     _id: order._id,
   }));

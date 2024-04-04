@@ -9,6 +9,15 @@ const getenquiries = async () => {
   }
 };
 
+const getSingleEnquiry = async (enquiryId) => {
+  try {
+    const response = await axiosClientService.get(`enquiry/${enquiryId}`);
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const updateEnquiry = async (updateEnquiryId, statusEnquiry) => {
   try {
     const response = await axiosClientService.put(
@@ -33,6 +42,7 @@ const deleteEnquiry = async (enquiryId) => {
 
 export const enquiryService = {
   getenquiries,
+  getSingleEnquiry,
   updateEnquiry,
   deleteEnquiry,
 };

@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Modal, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCoupons, updateTheCoupon } from "../features/coupon/couponSlice";
-import EditButton from "../components/EditButton";
 import DeleteButton from "../components/DeleteButton";
-import { Link } from "react-router-dom";
 import LoadingBar from "../components/LoadingBar";
 import CustomInput from "../components/CustomInput";
+import { changeDateFormat } from "../utils/dateFormat";
 
 const columns = [
   {
@@ -29,6 +28,7 @@ const columns = [
   },
 ];
 
+
 const CouponList = () => {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,7 +43,7 @@ const CouponList = () => {
     key: index + 1,
     name: coupon.name,
     discount: `₹ ${coupon.discount}`,
-    expiry: new Date(coupon.expiry).toLocaleString(),
+    expiry: changeDateFormat(coupon.expiry),
     _id: coupon._id,
   }));
 

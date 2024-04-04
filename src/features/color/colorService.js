@@ -18,19 +18,17 @@ const addColor = async (userData) => {
   }
 };
 
-const updateColor = async (updateColorId, updateColor) => {
+const updateColor = async (colorId, updateColor) => {
   try {
-    const response = await axiosClientService.put(
-      `color/${updateColorId}`,
-      { status: updateColor }
-    );
+    const response = await axiosClientService.put(`color/${colorId}`, {
+      title: updateColor,
+    });
 
     return response.result;
   } catch (error) {
     throw error;
   }
 };
-
 
 const deleteColor = async (colorId) => {
   try {

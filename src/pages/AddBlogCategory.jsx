@@ -3,9 +3,11 @@ import CustomInput from "../components/CustomInput";
 import { addTheBlogCategory } from "../features/blog Category/blogCategorySlice";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingBar from "../components/LoadingBar";
+import { useNavigate } from "react-router-dom";
 
 const AddBlogCategory = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLoading = useSelector((state) => state.blogCategory.isLoading);
   const [blogCategoryName, setBlogCategoryName] = useState("");
 
@@ -16,6 +18,9 @@ const AddBlogCategory = () => {
     }
     dispatch(addTheBlogCategory({ title: blogCategoryName }));
     setBlogCategoryName("");
+    setTimeout(() => {
+      navigate("/dashboard/blog-category-list");
+    }, 2000);
   };
 
   if (isLoading) {

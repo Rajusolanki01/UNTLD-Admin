@@ -1,37 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  blockAUser,
-  getaSingleUsers,
-  unblockAUser,
-} from "../features/customer/customerSlice";
-import { useParams } from "react-router-dom";
-import { avatar } from "../assets/assets";
+import { useNavigate, useParams } from "react-router-dom";
 import LoadingBar from "../components/LoadingBar";
+import { avatar } from "../assets/assets";
+import {
+  getASingleEnquiry,
+  updateTheEnquiriesStatus,
+} from "../features/enquiry/enquirySlice";
+import { Modal, Select, Tag } from "antd";
 import { changeDateFormat } from "../utils/dateFormat";
 
-const CustomerProfile = () => {
+const { Option } = Select;
+
+const ViewsEnquiry = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [statusMessage, setStatusMessage] = useState("");
-  const singleUserState = useSelector((state) => state.customer);
-  const { singleCustomer, isLoading, isBlockedUser } = singleUserState;
+  const navigate = useNavigate();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [enquiryTextStatus, setEnquiryTextStatus] = useState("");
+  const [selectedEnquiryId, setSelectedEnquiryId] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const enquiryState = useSelector((state) => state.enquiry);
+  const singleEnquiryState = useSelector(
+    (state) => state.enquiry.singleEnquiry
+  );
+  const { isLoading } = enquiryState;
+  const userInfo = singleEnquiryState.user;
+
+  console.log(singleEnquiryState);
 
   useEffect(() => {
-    dispatch(getaSingleUsers(id));
-    if (isBlockedUser === "User Blocked") {
-      setStatusMessage("Blocked");
-    } else {
-      setStatusMessage("Active");
-    }
-  }, [dispatch, id, isBlockedUser]);
+    dispatch(getASingleEnquiry(id));
+  }, [dispatch, id]);
 
-  const handleBlockUser = async (id) => {
-    await dispatch(blockAUser(id));
+  const handleStatusChange = (value) => {
+    setSelectedStatus(value);
   };
 
-  const handleUnblockUser = async (id) => {
-    await dispatch(unblockAUser(id));
+  const handleModalOk = () => {
+    dispatch(
+      updateTheEnquiriesStatus({
+        updateEnquiryId: selectedEnquiryId,
+        statusEnquiry: selectedStatus,
+      })
+    )
+      .then(() => {
+        setModalVisible(false);
+        setTimeout(() => {
+          navigate("/dashboard/enquiries");
+        }, 100);
+      })
+      .catch((error) => {
+        console.error(
+          "An error occurred while updating the enquiry status:",
+          error
+        );
+      });
+  };
+
+  const handleModalCancel = () => {
+    setModalVisible(false);
   };
 
   if (isLoading) {
@@ -151,22 +179,43 @@ const CustomerProfile = () => {
         <div className="image-cricle">
           <img src={avatar} alt="" className="avatar-image" />
         </div>
-        <div className="card__title">{`${singleCustomer.firstname} ${singleCustomer.lastname}`}</div>
-        <div className="card__subtitle">{singleCustomer.email}</div>
-        <div className="card__wrapper d-flex align-singleUserStates-center gap-3">
-          {statusMessage === "Blocked" ? (
-            <button
-              className="card__btn card__btn-solid"
-              onClick={() => handleUnblockUser(id)}
+        <div className="card__title">{`${userInfo?.firstname} ${userInfo?.lastname}`}</div>
+        <div className="card__subtitle p-3 d-flex gap-3">
+          <div>
+            <Tag
+              className="p-2"
+              color={
+                singleEnquiryState?.status === "Submitted"
+                  ? "blue"
+                  : singleEnquiryState?.status === "Contacted"
+                  ? "gold"
+                  : singleEnquiryState?.status === "In Progress"
+                  ? "red"
+                  : singleEnquiryState?.status === "Resolved"
+                  ? "green"
+                  : ""
+              }
             >
-              Unblock
+              {singleEnquiryState?.status}
+            </Tag>
+          </div>
+          <div>
+            {" "}
+            <button
+              className="editBtn"
+              onClick={() => {
+                setEnquiryTextStatus(singleEnquiryState?.status);
+                setSelectedEnquiryId(id);
+                setModalVisible(true);
+              }}
+            >
+              <svg height="1em" viewBox="0 0 512 512">
+                <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
+              </svg>
             </button>
-          ) : (
-            <button className="card__btn" onClick={() => handleBlockUser(id)}>
-              Block
-            </button>
-          )}
+          </div>
         </div>
+        <div className="card__wrapper d-flex align-singleUserStates-center gap-3"></div>
       </div>
       <div className="card-2">
         <div className="heading m-2 flex-grow-1">
@@ -174,50 +223,85 @@ const CustomerProfile = () => {
             <div className="customer-details d-flex flex-wrap flex-column m-1">
               <div className="d-flex gap-2 mb-0">
                 <h6 className="mt-0">Name : </h6>
-                <p>
-                  {`${singleCustomer.firstname} ${singleCustomer.lastname}`}{" "}
-                </p>
+                <p>{`${userInfo?.firstname} ${userInfo?.lastname}`}</p>
               </div>
               <div className="d-flex gap-2">
                 <h6>Email : </h6>
-                <p>{singleCustomer.email}</p>
+                <p>{userInfo?.email}</p>
               </div>
               <div className="d-flex gap-2">
                 <h6>Mobile : </h6>
-                <p>{singleCustomer.mobile}</p>
+                <a href="tel:+" className="text-bg-info">
+                  {userInfo?.mobile}
+                </a>
+              </div>
+              <div className="d-flex gap-2"></div>
+
+              <div className="d-flex gap-3 my-2">
+                <h6 className="mb-3 mt-2">Address :</h6>
+                <div className="ml-1">
+                  {userInfo?.address?.map((address, index) => (
+                    <p key={index}>
+                      <span>{`${address?.street}`}</span> <br />
+                      <span>
+                        {` ${address?.city}, ${address?.state}, ${address?.zipcode}
+                        `}
+                      </span>
+                    </p>
+                  ))}
+                </div>
               </div>
               <div className="d-flex gap-2">
-                <h6>Role : </h6>
-                <p>{singleCustomer.role}</p>
+                <h6>status : </h6>
+                <Tag
+                  color={
+                    singleEnquiryState?.status === "Submitted"
+                      ? "blue"
+                      : singleEnquiryState?.status === "Contacted"
+                      ? "gold"
+                      : singleEnquiryState?.status === "In Progress"
+                      ? "red"
+                      : singleEnquiryState?.status === "Resolved"
+                      ? "green"
+                      : ""
+                  }
+                >
+                  {singleEnquiryState?.status}
+                </Tag>
               </div>
-              <div className="d-flex gap-2">
-                <h6>Blocked Status : </h6>
-                <p>
-                  {statusMessage === "Blocked" ? (
-                    <span className="blocked">Blocked</span>
-                  ) : (
-                    <span className="unblocked">Active</span>
-                  )}
-                </p>
+              <div className="d-flex gap-2 my-2">
+                <h6 className="mb-0">Date : </h6>
+                {changeDateFormat(singleEnquiryState?.updatedAt)}
               </div>
-              <div className="d-flex gap-2">
-                <h6 className="mb-0">Address : </h6>
-                <p>{singleCustomer.address === null ? "India" : "America"} </p>
-              </div>
-              <div className="d-flex gap-2">
-                <h6 className="mb-0">Created At : </h6>
-                <p>{changeDateFormat(singleCustomer.createdAt)}</p>
-              </div>
-              <div className="d-flex gap-2">
-                <h6 className="mb-0">Updated At : </h6>
-                <p>{changeDateFormat(singleCustomer.createdAt)}</p>
+
+              <div className="d-flex gap-2 my-2">
+                <h6 className="mb-0">Comment : </h6>
+                <span className="blocked">{singleEnquiryState?.comment}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Modal
+        title="Update Enquiry Status"
+        open={modalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+      >
+        <p>Please select the new Enquiry Status:</p>
+        <Select
+          style={{ width: 200 }}
+          onChange={handleStatusChange}
+          defaultValue={enquiryTextStatus}
+        >
+          <Option value="Submitted">Submitted</Option>
+          <Option value="Contacted">Contacted</Option>
+          <Option value="In Progress">In Progress</Option>
+          <Option value="Resolved">Resolved</Option>
+        </Select>
+      </Modal>
     </div>
   );
 };
 
-export default CustomerProfile;
+export default ViewsEnquiry;

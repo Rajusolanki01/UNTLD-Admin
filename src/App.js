@@ -27,6 +27,7 @@ import RequireUserAuth from "./AuthenticationAccess/RequireUserAuth";
 import OnlyIfNotLoggedIn from "./AuthenticationAccess/OnlyIfNotLoggedIn";
 import CustomerProfile from "./pages/CustomerProfile";
 import CouponList from "./pages/CouponList";
+import ViewsEnquiry from "./pages/ViewsEnquiry";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
                 element={<CustomerProfile />}
               />
               <Route path="add-product" element={<AddProduct />} />
+              <Route path="add-product/:id" element={<AddProduct />} />
               <Route path="product-list" element={<ProductList />} />
               <Route path="add-brand" element={<AddBrand />} />
               <Route path="brand-list" element={<BrandList />} />
@@ -57,17 +59,31 @@ function App() {
               <Route path="color-list" element={<ColorList />} />
               <Route path="add-coupon" element={<AddCoupon />} />
               <Route path="coupon-list" element={<CouponList />} />
-              <Route path="orders" element={<Orders />} />
+              <Route path="orders" element={<Orders />} />{" "}
               <Route path="add-blog" element={<AddBlog />} />
+              <Route path="add-blog/:id?" element={<AddBlog />} />
               <Route path="add-blog-category" element={<AddBlogCategory />} />
               <Route path="blog-list" element={<BlogList />} />
               <Route path="blog-category-list" element={<BlogCategoryList />} />
               <Route path="enquiries" element={<Enquiries />} />
+              <Route path="view-enquiry/:id" element={<ViewsEnquiry />} />
             </Route>
           </Route>
         </Routes>
       </Router>
-      <Toaster position="top-center" expand={false} />
+      <Toaster
+        position="top-center"
+        expand={false}
+        toastOptions={{
+          style: {
+            background: "white",
+            width: "300px",
+            left: "100px",
+            fontSize: "14px",
+          },
+          className: "class",
+        }}
+      />
     </>
   );
 }

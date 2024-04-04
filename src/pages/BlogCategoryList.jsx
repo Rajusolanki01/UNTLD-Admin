@@ -78,7 +78,7 @@ const BlogCategoryList = () => {
     );
   }
   return (
-    <div>
+    <div className="blog-category-list">
       <h3 className="mb-4 title">Blogs Category List</h3>
       <div>
         <Table

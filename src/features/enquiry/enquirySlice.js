@@ -14,6 +14,19 @@ export const getAllEnquiries = createAsyncThunk(
   }
 );
 
+export const getASingleEnquiry = createAsyncThunk(
+  "enquiry/get-single-enquiry",
+  async (enquiryId, thunkAPI) => {
+    try {
+      return await enquiryService.getSingleEnquiry(enquiryId);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response?.result?.message || error
+      );
+    }
+  }
+);
+
 export const updateTheEnquiriesStatus = createAsyncThunk(
   "enquiry/update-enquiry-status",
   async ({ updateEnquiryId, statusEnquiry }, thunkAPI) => {
@@ -44,7 +57,7 @@ export const deleteTheEnquiries = createAsyncThunk(
 
 const enquiryInitialState = {
   enquiries: [],
-  enquiryStatus: "",
+  singleEnquiry: "",
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -68,6 +81,22 @@ export const enquirySlice = createSlice({
         state.isMessage = "success";
       })
       .addCase(getAllEnquiries.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isMessage = action.error;
+      })
+      .addCase(getASingleEnquiry.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getASingleEnquiry.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.singleEnquiry = action.payload;
+        state.isMessage = "success";
+      })
+      .addCase(getASingleEnquiry.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

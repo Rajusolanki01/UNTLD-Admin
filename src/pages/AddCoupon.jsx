@@ -3,19 +3,23 @@ import CustomInput from "../components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
 import { addTheCoupon } from "../features/coupon/couponSlice";
 import LoadingBar from "../components/LoadingBar";
+import { useNavigate } from "react-router-dom";
 
 const AddCoupon = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLoading = useSelector((state) => state.coupon.isLoading);
   const [couponName, setCouponName] = useState("");
   const [discount, setDiscount] = useState("");
-  const [expiry, setExpiry] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [expiryTime, setExpiryTime] = useState("");
 
   const handleAddCoupon = (e) => {
     e.preventDefault();
-    if (!couponName.trim() || !discount || !expiry) {
+    if (!couponName.trim() || !discount || !expiryDate || !expiryTime) {
       return;
     }
+    const expiry = `${expiryDate} ${expiryTime}`;
     dispatch(
       addTheCoupon({
         name: couponName,
@@ -25,7 +29,11 @@ const AddCoupon = () => {
     );
     setCouponName("");
     setDiscount("");
-    setExpiry("");
+    setExpiryDate("");
+    setExpiryTime("");
+    setTimeout(() => {
+      navigate("/dashboard/coupon-list");
+    }, 2000);
   };
 
   if (isLoading) {
@@ -55,8 +63,14 @@ const AddCoupon = () => {
           <CustomInput
             type="date"
             label="Expiry Date"
-            value={expiry}
-            onChange={(e) => setExpiry(e.target.value)}
+            value={expiryDate}
+            onChange={(e) => setExpiryDate(e.target.value)}
+          />
+          <CustomInput
+            type="time"
+            label="Expiry Time"
+            value={expiryTime}
+            onChange={(e) => setExpiryTime(e.target.value)}
           />
 
           <div className="d-flex justify-content-center align-content-center ">

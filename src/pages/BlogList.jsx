@@ -29,7 +29,7 @@ const columns = [
     dataIndex: "actions",
     render: (_, record) => (
       <div className="d-flex gap-2">
-        <Link to={`blog/${record._id}`}>
+        <Link to={`/dashboard/add-blog/${record._id}`}>
           <EditButton />
         </Link>{" "}
         <div>

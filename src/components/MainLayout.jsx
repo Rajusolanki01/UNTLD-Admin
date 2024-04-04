@@ -12,7 +12,7 @@ import { GrCatalog, GrCart } from "react-icons/gr";
 import { ImBlog } from "react-icons/im";
 import { SiBrandfolder } from "react-icons/si";
 import { RiCustomerService2Line, RiCouponFill } from "react-icons/ri";
-import { untldName, indiaFlag } from "../assets/assets";
+import { untldName, indiaFlag, Avatar } from "../assets/assets";
 import { Layout, Menu, theme } from "antd";
 import { Outlet } from "react-router-dom";
 import ToggleButton from "./ToggleButton";
@@ -51,6 +51,35 @@ const MainLayout = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // useEffect(() => {
+  //   const disableRightClick = (event) => {
+  //     event.preventDefault();
+  //   };
+
+  //   window.addEventListener("contextmenu", disableRightClick);
+
+  //   return () => {
+  //     window.removeEventListener("contextmenu", disableRightClick);
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   const handleKeyDown = (event) => {
+  //     if (
+  //       event.ctrlKey &&
+  //       (event.keyCode === 67 || event.keyCode === 86) //? Ctrl + C / Ctrl + V
+  //     ) {
+  //       event.preventDefault();
+  //     }
+  //   };
+
+  //   window.addEventListener("keydown", handleKeyDown);
+
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, []);
 
   return (
     <Layout>
@@ -125,7 +154,19 @@ const MainLayout = () => {
                   icon: <MdOutlineFormatColorFill className="fss" />,
                   label: "Color List",
                 },
+              ],
+            },
 
+            {
+              key: "orders",
+              icon: <LuClipboardList className="fss" />,
+              label: "Orders",
+            },
+            {
+              key: "marketing",
+              icon: <RiCouponFill className="fss" />,
+              label: "Marketing",
+              children: [
                 {
                   key: "add-coupon",
                   icon: <RiCouponFill className="fss" />,
@@ -137,11 +178,6 @@ const MainLayout = () => {
                   label: "Coupon List",
                 },
               ],
-            },
-            {
-              key: "orders",
-              icon: <LuClipboardList className="fss" />,
-              label: "Orders",
             },
 
             {
@@ -208,10 +244,10 @@ const MainLayout = () => {
             <div className="gap-2 d-flex align-items-center dropdown">
               <div>
                 <img
-                  src="https://stroyka-admin.html.themeforest.scompiler.ru/variants/ltr/images/customers/customer-4-64x64.jpg"
+                  src={Avatar}
                   alt="Profile"
-                  width={40}
-                  height={40}
+                  width={50}
+                  height={50}
                   style={{ borderRadius: "50%" }}
                 />
               </div>

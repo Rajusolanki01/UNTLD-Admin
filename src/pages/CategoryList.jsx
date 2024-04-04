@@ -8,7 +8,7 @@ import {
 import LoadingBar from "../components/LoadingBar";
 import DeleteButton from "../components/DeleteButton";
 import CustomInput from "../components/CustomInput";
-import { updateTheBlogCategoryTitle } from "../features/blog Category/blogCategorySlice";
+import { changeDateFormat } from "../utils/dateFormat";
 
 const columns = [
   {
@@ -40,8 +40,8 @@ const CategoryList = () => {
   const data = categories?.map((category, index) => ({
     key: index + 1,
     title: category.title,
-    createdAt: new Date(category.createdAt).toLocaleString(),
-    updatedAt: new Date(category.updatedAt).toLocaleString(),
+    createdAt: changeDateFormat(category.createdAt),
+    updatedAt: changeDateFormat(category.updatedAt),
     _id: category._id,
   }));
 

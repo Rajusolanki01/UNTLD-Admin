@@ -27,6 +27,20 @@ export const addTheColor = createAsyncThunk(
   }
 );
 
+export const updateTheColor = createAsyncThunk(
+  "color/update-color",
+  async ({ colorId, updateColor }, thunkAPI) => {
+    console.log(updateColor);
+    try {
+      await colorService.updateColor(colorId, updateColor);
+      thunkAPI.dispatch(getAllColors);
+      return { colorId, updateColor };
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const deleteTheColor = createAsyncThunk(
   "color/delete-color",
   async (colorId, thunkAPI) => {
@@ -84,6 +98,25 @@ export const colorSlice = createSlice({
         state.isMessage = "success";
       })
       .addCase(addTheColor.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isMessage = action.error;
+      })
+      .addCase(updateTheColor.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTheColor.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        const { colorId, updateColor } = action.payload;
+        state.colors = state.colors.map((color) =>
+          color._id === colorId ? { ...color, title: updateColor } : color
+        );
+        state.isMessage = "success";
+      })
+      .addCase(updateTheColor.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

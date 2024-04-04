@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -28,7 +27,7 @@ const AdminLogin = () => {
       } catch (error) {
         throw error;
       }
-    },
+    }
   });
 
   return (

@@ -9,6 +9,15 @@ const getBlogs = async () => {
   }
 };
 
+const getABlog = async (getblogId) => {
+  try {
+    const response = await axiosClientService.get(`blog/${getblogId}`);
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const addBlog = async (userData) => {
   try {
     const response = await axiosClientService.post("blog", userData);
@@ -18,7 +27,14 @@ const addBlog = async (userData) => {
   }
 };
 
-
+const updateBlog = async (blogId, values) => {
+  try {
+    const response = await axiosClientService.put(`blog/${blogId}`, values);
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const deleteBlog = async (blogId) => {
   try {
@@ -31,6 +47,8 @@ const deleteBlog = async (blogId) => {
 
 export const blogService = {
   getBlogs,
+  getABlog,
   addBlog,
+  updateBlog,
   deleteBlog,
 };
