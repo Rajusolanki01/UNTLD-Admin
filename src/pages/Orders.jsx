@@ -6,6 +6,7 @@ import LoadingBar from "../components/LoadingBar";
 import DeleteButton from "../components/DeleteButton";
 import EditButton from "../components/EditButton";
 import { changeDateFormat } from "../utils/dateFormat";
+import { Link } from "react-router-dom";
 
 const columns = [
   {
@@ -38,13 +39,11 @@ const Orders = () => {
   const data = orders.map((order, index) => ({
     key: index + 1,
     orderby: `${order.orderby.firstname} ${order.orderby.lastname}`,
-    product: order.products.map((product, index) => {
-      return (
-        <div key={index}>
-          <span>[ {product.product.title} ]</span> <br />
-        </div>
-      );
-    }),
+    product: (
+      <Link className="" to={`/dashboard/view-orders/${order.orderby._id}`}>
+        View Orders
+      </Link>
+    ),
     paymentIntent: `₹ ${order.paymentIntent.amount}`,
     createdAt: changeDateFormat(order.createdAt),
 
@@ -73,15 +72,19 @@ const Orders = () => {
             {
               title: "Actions",
               dataIndex: "actions",
-              render: (_, record) => (
-                <div className="d-flex gap-2">
-                  <EditButton />
+              render: (_, record) => {
+                return (
+                  <div className="d-flex gap-2">
+                    <Link className="" to={`${record?.product?.props.to}`}>
+                      <EditButton />
+                    </Link>
 
-                  <div>
-                    <DeleteButton orderId={record._id} />
+                    <div>
+                      <DeleteButton orderId={record._id} />
+                    </div>
                   </div>
-                </div>
-              ),
+                );
+              },
             },
           ]}
           dataSource={data}

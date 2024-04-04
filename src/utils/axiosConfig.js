@@ -80,7 +80,6 @@ axiosClientService.interceptors.response.use(
     return Promise.reject(error);
   },
   async (error) => {
-    // Handle 404 error here
     if (error.response && error.response.status === 404) {
       toast.error("Server not found. Please try again later.");
     } else {

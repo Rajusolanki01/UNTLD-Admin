@@ -44,6 +44,7 @@ const AddProduct = () => {
   const location = useLocation();
   const getProductId = location.pathname.split("/")[3];
   const [color, setColor] = useState([]);
+  console.log(color);
   const brandState = useSelector((state) => state.brand.brands);
   const categoryState = useSelector((state) => state.category.categories);
   const colorState = useSelector((state) => state.color.colors);
@@ -63,10 +64,12 @@ const AddProduct = () => {
   const colorOptions = [];
   colorState.forEach((color) => {
     colorOptions.push({
-      value: color._id,
-      label: color.title,
+      _id: color._id,
+      value: color.title,
     });
   });
+
+  console.log(colorOptions);
 
   const img = [];
   uploadState.forEach((image) => {
@@ -98,6 +101,7 @@ const AddProduct = () => {
     },
     validationSchema: productSchema,
     onSubmit: async (values) => {
+      alert(JSON.stringify(values));
       if (getProductId !== undefined) {
         dispatch(updateTheProduct({ productId: getProductId, values: values }));
       } else {
@@ -212,7 +216,7 @@ const AddProduct = () => {
             allowClear
             className="w-100 h-100"
             placeholder="Select The Colors"
-            defaultValue={color}
+            value={color}
             onChange={(i) => handleColors(i)}
             options={colorOptions}
           />

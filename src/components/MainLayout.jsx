@@ -33,7 +33,7 @@ const MainLayout = () => {
     try {
       await dispatch(logoutUser(e.target.value));
       removeItem(KEY_ACCESS_TOKEN);
-      navigate("/admin-login");
+      navigate("/");
     } catch (error) {
       throw error;
     }

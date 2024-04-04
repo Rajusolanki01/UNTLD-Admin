@@ -16,9 +16,19 @@ const login = async (userData) => {
     throw error;
   }
 };
+
 const getOrders = async () => {
   try {
     const response = await axiosClientService.get("user/getallorders");
+    return response.result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getOrderByUser = async (id) => {
+  try {
+    const response = await axiosClientService.post(`user/getOrderByUser/${id}`);
     return response.result;
   } catch (error) {
     throw error;
@@ -49,6 +59,7 @@ const logout = async (userData) => {
 export const authService = {
   login,
   getOrders,
+  getOrderByUser,
   forgotPassword,
   logout,
 };

@@ -28,6 +28,7 @@ import OnlyIfNotLoggedIn from "./AuthenticationAccess/OnlyIfNotLoggedIn";
 import CustomerProfile from "./pages/CustomerProfile";
 import CouponList from "./pages/CouponList";
 import ViewsEnquiry from "./pages/ViewsEnquiry";
+import ViewOrder from "./pages/ViewOrder";
 
 function App() {
   return (
@@ -35,8 +36,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="reset-password/:userId" element={<ResetPassword />} />
+          <Route path="/" element={<WelcomePage />} />{" "}
           <Route element={<OnlyIfNotLoggedIn />}>
-            <Route path="/" element={<WelcomePage />} />{" "}
             <Route path="admin-login" element={<AdminLogin />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
           </Route>
@@ -60,6 +61,7 @@ function App() {
               <Route path="add-coupon" element={<AddCoupon />} />
               <Route path="coupon-list" element={<CouponList />} />
               <Route path="orders" element={<Orders />} />{" "}
+              <Route path="view-orders/:id" element={<ViewOrder />} />{" "}
               <Route path="add-blog" element={<AddBlog />} />
               <Route path="add-blog/:id?" element={<AddBlog />} />
               <Route path="add-blog-category" element={<AddBlogCategory />} />
