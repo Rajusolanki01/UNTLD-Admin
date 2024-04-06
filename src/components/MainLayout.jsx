@@ -52,34 +52,34 @@ const MainLayout = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    const disableRightClick = (event) => {
-      event.preventDefault();
-    };
+  // useEffect(() => {
+  //   const disableRightClick = (event) => {
+  //     event.preventDefault();
+  //   };
 
-    window.addEventListener("contextmenu", disableRightClick);
+  //   window.addEventListener("contextmenu", disableRightClick);
 
-    return () => {
-      window.removeEventListener("contextmenu", disableRightClick);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("contextmenu", disableRightClick);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (
-        event.ctrlKey &&
-        (event.keyCode === 67 || event.keyCode === 86) //? Ctrl + C / Ctrl + V
-      ) {
-        event.preventDefault();
-      }
-    };
+  // useEffect(() => {
+  //   const handleKeyDown = (event) => {
+  //     if (
+  //       event.ctrlKey &&
+  //       (event.keyCode === 67 || event.keyCode === 86) //? Ctrl + C / Ctrl + V
+  //     ) {
+  //       event.preventDefault();
+  //     }
+  //   };
 
-    window.addEventListener("keydown", handleKeyDown);
+  //   window.addEventListener("keydown", handleKeyDown);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, []);
 
   return (
     <Layout>

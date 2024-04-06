@@ -67,9 +67,17 @@ const ProductList = () => {
   const productState = useSelector((state) => state.product);
   const { products, isLoading } = productState;
 
+  const truncateString = (str, num) => {
+    if (str.split(" ").length > num) {
+      return str.split(" ").splice(0, num).join(" ") + "...";
+    } else {
+      return str;
+    }
+  };
+
   const data = products.map((product, index) => ({
     key: index + 1,
-    title: product.title,
+    title: truncateString(product.title, 4),
     brand: product.brand,
     category: product.category,
     quantity: product.quantity,
