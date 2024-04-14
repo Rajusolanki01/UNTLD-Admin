@@ -30,7 +30,6 @@ export const addTheColor = createAsyncThunk(
 export const updateTheColor = createAsyncThunk(
   "color/update-color",
   async ({ colorId, updateColor }, thunkAPI) => {
-    console.log(updateColor);
     try {
       await colorService.updateColor(colorId, updateColor);
       thunkAPI.dispatch(getAllColors);

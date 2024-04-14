@@ -47,7 +47,7 @@ const CategoryList = () => {
 
   useEffect(() => {
     dispatch(getAllCategories());
-  }, []);
+  }, [dispatch]);
 
   const handleModalOk = () => {
     dispatch(

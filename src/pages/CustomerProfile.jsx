@@ -201,8 +201,37 @@ const CustomerProfile = () => {
                 </p>
               </div>
               <div className="d-flex gap-2">
-                <h6 className="mb-0">Address : </h6>
-                <p>{singleCustomer.address === null ? "India" : "America"} </p>
+                {singleCustomer &&
+                  Array.isArray(singleCustomer.address) &&
+                  singleCustomer.address.length > 0 &&
+                  singleCustomer.address.map((item, index) => (
+                    <div className="" key={index}>
+                      <div className="d-flex gap-2">
+                        <h6 className="mb-0">Address :</h6>
+                        <p>{item.address}</p>
+                      </div>
+                      <div className="d-flex gap-2">
+                        <h6 className="mb-0">Appartment :</h6>
+                        <p>{item.appartment}</p>
+                      </div>
+                      <div className="d-flex gap-2">
+                        <h6 className="mb-0">City :</h6>
+                        <p>{item.city}</p>
+                      </div>
+                      <div className="d-flex gap-2">
+                        <h6 className="mb-0">State :</h6>
+                        <p>{item.state}</p>
+                      </div>{" "}
+                      <div className="d-flex gap-2">
+                        <h6 className="mb-0">Pincode :</h6>
+                        <p>{item.pincode}</p>
+                      </div>
+                      <div className="d-flex gap-2">
+                        <h6 className="mb-0">Country :</h6>
+                        <p>{item.country}</p>
+                      </div>
+                    </div>
+                  ))}
               </div>
               <div className="d-flex gap-2">
                 <h6 className="mb-0">Created At : </h6>

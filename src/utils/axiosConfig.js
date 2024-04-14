@@ -57,9 +57,9 @@ axiosClientService.interceptors.response.use(
         .then((refreshResponse) => {
           if (
             refreshResponse.data.status === "ok" &&
-            refreshResponse.data.result.accessToken
+            refreshResponse.data.result
           ) {
-            const newAccessToken = refreshResponse.data.result.accessToken;
+            const newAccessToken = refreshResponse.data.result;
             setItem(KEY_ACCESS_TOKEN, newAccessToken);
 
             originalRequest.headers[

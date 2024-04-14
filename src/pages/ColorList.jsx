@@ -45,7 +45,7 @@ const ColorList = () => {
 
   useEffect(() => {
     dispatch(getAllColors());
-  }, []);
+  }, [dispatch]);
 
   const handleModalOk = () => {
     dispatch(

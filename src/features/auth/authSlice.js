@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { authService } from "./authService";
+import { toast } from "sonner";
 
 export const loginUser = createAsyncThunk(
   "auth/login",
@@ -34,6 +35,41 @@ export const getAOrderByUser = createAsyncThunk(
   }
 );
 
+export const updateTheOrderStatus = createAsyncThunk(
+  "enquiry/update-order-status",
+  async ({ orderId, orderStatus }, thunkAPI) => {
+    try {
+      await authService.updateOrder(orderId, orderStatus);
+      thunkAPI.dispatch(getAllUsersOrders);
+      return { orderId, orderStatus };
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+export const getAMonthlyWiseOrders = createAsyncThunk(
+  "auth/Monthly-Orders",
+  async (thunkAPI) => {
+    try {
+      return await authService.getMonthlyOrders();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message || error);
+    }
+  }
+);
+
+export const getAYearlyWiseTotalOrders = createAsyncThunk(
+  "auth/Yearly-Orders",
+  async (thunkAPI) => {
+    try {
+      return await authService.yearTotalOrders();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message || error);
+    }
+  }
+);
+
 export const forgortPasswordUser = createAsyncThunk(
   "auth/forgotPassword",
   async (userData, thunkAPI) => {
@@ -41,6 +77,19 @@ export const forgortPasswordUser = createAsyncThunk(
       return await authService.forgotPassword(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message || error);
+    }
+  }
+);
+
+export const resetUserPassword = createAsyncThunk(
+  "auth/reset-password",
+  async (userData, thunkAPI) => {
+    try {
+      return await authService.resetPassword(userData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response.data.message || error.message
+      );
     }
   }
 );
@@ -56,19 +105,21 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-const userDefaultState = {
-  _id: null,
-  firstname: null,
-  lastname: null,
-  email: null,
-  mobile: null,
-  token: null,
-};
+// const userDefaultState = {
+//   _id: null,
+//   firstname: null,
+//   lastname: null,
+//   email: null,
+//   mobile: null,
+//   token: null,
+// };
 
 const userInitialState = {
-  user: userDefaultState,
+  user: {},
   orders: [],
-  orderByUser: "",
+  orderByUser: {},
+  getMonthlyOrder: {},
+  getYearlyOrder: {},
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -129,6 +180,57 @@ export const authSlice = createSlice({
         state.isSuccess = false;
         state.isMessage = action.payload;
       })
+      .addCase(updateTheOrderStatus.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTheOrderStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        const { orderId, orderStatus } = action.payload;
+        state.orders = state.orders.map((order) =>
+          order._id === orderId ? { ...order, orderStatus: orderStatus } : order
+        );
+        state.isMessage = "success";
+      })
+      .addCase(updateTheOrderStatus.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isMessage = action.payload;
+      })
+      .addCase(getAMonthlyWiseOrders.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAMonthlyWiseOrders.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.getMonthlyOrder = action.payload;
+        state.isMessage = "success";
+      })
+      .addCase(getAMonthlyWiseOrders.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isMessage = action.payload;
+      })
+      .addCase(getAYearlyWiseTotalOrders.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAYearlyWiseTotalOrders.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.getYearlyOrder = action.payload;
+        state.isMessage = "success";
+      })
+      .addCase(getAYearlyWiseTotalOrders.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.isMessage = action.payload;
+      })
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -160,6 +262,24 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.isMessage = action.payload;
+      })
+      .addCase(resetUserPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetUserPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        if (state.isSuccess) {
+          toast.success("Password Successfully Change");
+        }
+        state.user = action.payload;
+      })
+      .addCase(resetUserPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.ismessage = action.error;
       });
   },
 });

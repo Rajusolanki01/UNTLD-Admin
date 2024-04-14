@@ -35,11 +35,11 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="reset-password/:userId" element={<ResetPassword />} />
           <Route path="/" element={<WelcomePage />} />{" "}
           <Route element={<OnlyIfNotLoggedIn />}>
             <Route path="admin-login" element={<AdminLogin />} />
-            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />{" "}
+            <Route path="reset-password/:token" element={<ResetPassword />} />
           </Route>
           <Route element={<RequireUserAuth />}>
             <Route path="/Dashboard" element={<MainLayout />}>

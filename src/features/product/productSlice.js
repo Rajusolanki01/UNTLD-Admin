@@ -72,7 +72,7 @@ export const deleteTheProduct = createAsyncThunk(
 
 const productInitialState = {
   products: [],
-  productName: "",
+  singleProduct: {},
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -108,7 +108,7 @@ export const productSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.productName = action.payload.title;
+        state.singleProduct = action.payload.title;
         state.isMessage = "success";
       })
       .addCase(getASingleProducts.rejected, (state, action) => {

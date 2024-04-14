@@ -27,8 +27,6 @@ const ViewsEnquiry = () => {
   const { isLoading } = enquiryState;
   const userInfo = singleEnquiryState.user;
 
-  console.log(singleEnquiryState);
-
   useEffect(() => {
     dispatch(getASingleEnquiry(id));
   }, [dispatch, id]);

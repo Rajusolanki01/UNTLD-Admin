@@ -1,43 +1,41 @@
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 import { BiArrowBack } from "react-icons/bi";
 import { Link, useParams } from "react-router-dom";
-import { axiosClientService } from "../utils/axiosConfig";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import { resetUserPassword } from "../features/auth/authSlice";
+import { useDispatch } from "react-redux";
+
+const resetPasswordSchema = yup.object({
+  password: yup.string().required("password is Required"),
+  confirmPassword: yup.string().required("Confirm Password is Required"),
+});
 
 const ResetPassword = () => {
-  const { userId } = useParams();
+  const { token } = useParams();
+  const dispatch = useDispatch();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: resetPasswordSchema,
+    onSubmit: async (values) => {
+      dispatch(resetUserPassword({ token: token, password: values.password }));
+    },
+  });
 
-    try {
-      const response = await axiosClientService.put(
-        `user/reset-password/${userId}`,
-        {
-          password,
-        }
-      );
-      if (response.result) {
-        setPassword("");
-        setConfirmPassword("");
-      } else {
-        return;
-      }
-      return response.result;
-    } catch (error) {
-      throw error;
-    }
+  const passwordMatch = () => {
+    return formik.values.password === formik.values.confirmPassword;
   };
+
   return (
     <>
       <div className="login-wrapper d-flex justify-content-center align-items-center py-4">
-        <form className="form-3" action="" onSubmit={handleResetPassword}>
+        <form className="form-3" action="" onSubmit={formik.handleSubmit}>
           <Link
             to="/admin-login"
             className="backlogin-3 d-flex align-items-center"
@@ -52,19 +50,22 @@ const ResetPassword = () => {
               placeholder="New Password"
               type="password"
               className="fInput email"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange("password")}
+              onBlur={formik.handleBlur("password")}
             />
             <>
               <input
                 placeholder="Confirm password"
                 type="password"
                 id="pass"
-                className="fInput pass"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
+                className={`fInput pass mb-0 ${
+                  !passwordMatch() ? "text-bg-danger" : ""
+                }`}
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange("confirmPassword")}
+                onBlur={formik.handleBlur("confirmPassword")}
               />
             </>
           </div>

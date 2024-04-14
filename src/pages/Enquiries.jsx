@@ -71,7 +71,7 @@ const Enquiries = () => {
 
   useEffect(() => {
     dispatch(getAllEnquiries());
-  }, []);
+  }, [dispatch]);
 
 
 

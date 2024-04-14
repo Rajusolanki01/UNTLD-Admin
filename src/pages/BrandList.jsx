@@ -47,7 +47,7 @@ const BrandList = () => {
 
   useEffect(() => {
     dispatch(getAllBrands());
-  }, []);
+  }, [dispatch]);
 
   const handleModalOk = () => {
     dispatch(

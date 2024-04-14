@@ -1,10 +1,11 @@
 import { Table } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsersOrders } from "../features/auth/authSlice";
+import {
+  getAllUsersOrders,
+  updateTheOrderStatus,
+} from "../features/auth/authSlice";
 import LoadingBar from "../components/LoadingBar";
-import DeleteButton from "../components/DeleteButton";
-import EditButton from "../components/EditButton";
 import { changeDateFormat } from "../utils/dateFormat";
 import { Link } from "react-router-dom";
 
@@ -23,11 +24,15 @@ const columns = [
   },
   {
     title: "Amount",
-    dataIndex: "paymentIntent",
+    dataIndex: "amount",
   },
   {
     title: "Date",
     dataIndex: "createdAt",
+  },
+  {
+    title: "Actions",
+    dataIndex: "actions",
   },
 ];
 
@@ -36,23 +41,47 @@ const Orders = () => {
   const orderState = useSelector((state) => state.auth);
   const { orders, isLoading } = orderState;
 
-  const data = orders.map((order, index) => ({
-    key: index + 1,
-    orderby: `${order.orderby.firstname} ${order.orderby.lastname}`,
-    product: (
-      <Link className="" to={`/dashboard/view-orders/${order.orderby._id}`}>
-        View Orders
-      </Link>
-    ),
-    paymentIntent: `₹ ${order.paymentIntent.amount}`,
-    createdAt: changeDateFormat(order.createdAt),
+  const data = [];
+  for (let i = 0; i < orders?.length; i++) {
+    data.push({
+      key: i + 1,
+      orderby: `${orders[i].user.firstname} ${orders[i].user.lastname}`,
+      product: (
+        <Link className="" to={`/dashboard/view-orders/${orders[i]._id}`}>
+          View Orders
+        </Link>
+      ),
+      amount: `₹${parseFloat(orders[i].totalPrice).toLocaleString("en-IN")}/-`,
+      createdAt: changeDateFormat(orders[i].createdAt),
 
-    _id: order._id,
-  }));
+      _id: orders[i]._id,
+      actions: (
+        <>
+          <select
+            name=""
+            id=""
+            className="form-select form-control"
+            value={orders[i]?.orderStatus}
+            onChange={(e) => updateTheOrder(orders[i]?._id, e.target.value)}
+          >
+            <option value="Ordered">Ordered</option>
+            <option value="Processed">Processed</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Out For Delivery">Out For Delivery</option>
+            <option value="Delivered">Delivered</option>
+          </select>
+        </>
+      ),
+    });
+  }
+
+  const updateTheOrder = (a, b) => {
+    dispatch(updateTheOrderStatus({ orderId: a, orderStatus: b }));
+  };
 
   useEffect(() => {
     dispatch(getAllUsersOrders());
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return (
@@ -66,29 +95,7 @@ const Orders = () => {
     <div>
       <h3 className="mb-4 title">Orders</h3>
       <div>
-        <Table
-          columns={[
-            ...columns,
-            {
-              title: "Actions",
-              dataIndex: "actions",
-              render: (_, record) => {
-                return (
-                  <div className="d-flex gap-2">
-                    <Link className="" to={`${record?.product?.props.to}`}>
-                      <EditButton />
-                    </Link>
-
-                    <div>
-                      <DeleteButton orderId={record._id} />
-                    </div>
-                  </div>
-                );
-              },
-            },
-          ]}
-          dataSource={data}
-        />
+        <Table columns={columns} dataSource={data} />
       </div>
     </div>
   );

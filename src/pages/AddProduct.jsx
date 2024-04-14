@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
@@ -44,48 +44,11 @@ const AddProduct = () => {
   const location = useLocation();
   const getProductId = location.pathname.split("/")[3];
   const [color, setColor] = useState([]);
-  console.log(color);
   const brandState = useSelector((state) => state.brand.brands);
   const categoryState = useSelector((state) => state.category.categories);
   const colorState = useSelector((state) => state.color.colors);
   const uploadState = useSelector((state) => state.upload.images);
-  const productState = useSelector((state) => state.product.productName);
-
-  useEffect(() => {
-    if (getProductId !== undefined) {
-      dispatch(getASingleProducts(getProductId));
-      formik.values.title = productState;
-    } else {
-      dispatch(clearUploadState());
-      formik.resetForm();
-    }
-  }, [dispatch, getProductId, productState]);
-
-  const colorOptions = [];
-  colorState.forEach((color) => {
-    colorOptions.push({
-      _id: color._id,
-      value: color.title,
-    });
-  });
-
-  console.log(colorOptions);
-
-  const img = [];
-  uploadState.forEach((image) => {
-    img.push({ public_id: image.public_id, url: image.url });
-  });
-
-  useEffect(() => {
-    formik.values.color = color ? color : " ";
-    formik.values.images = img;
-  }, [color, img]);
-
-  useEffect(() => {
-    dispatch(getAllBrands());
-    dispatch(getAllCategories());
-    dispatch(getAllColors());
-  }, []);
+  const productState = useSelector((state) => state.product.singleProduct);
 
   const formik = useFormik({
     initialValues: {
@@ -115,6 +78,46 @@ const AddProduct = () => {
       }, 4000);
     },
   });
+  
+
+  const dispatchProductDataToEdit = useCallback(() => {
+    if (getProductId !== undefined) {
+      dispatch(getASingleProducts(getProductId));
+      formik.values.title = productState;
+    } else {
+      dispatch(clearUploadState());
+      formik.resetForm();
+    }
+  }, [dispatch, formik, getProductId, productState]);
+
+  useEffect(() => {
+    dispatchProductDataToEdit();
+  }, [dispatchProductDataToEdit]);
+
+  const colorOptions = [];
+  colorState.forEach((color) => {
+    colorOptions.push({
+      _id: color._id,
+      value: color.title,
+    });
+  });
+
+
+  const img = [];
+  uploadState.forEach((image) => {
+    img.push({ public_id: image.public_id, url: image.url });
+  });
+
+  useEffect(() => {
+    formik.values.color = color ? color : " ";
+    formik.values.images = img;
+  }, [color, formik]);
+
+  useEffect(() => {
+    dispatch(getAllBrands());
+    dispatch(getAllCategories());
+    dispatch(getAllColors());
+  }, [dispatch]);
 
   const handleColors = (e) => {
     setColor(e);

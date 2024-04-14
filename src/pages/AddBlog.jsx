@@ -48,7 +48,7 @@ const AddBlog = () => {
       dispatch(clearUploadState());
       formik.resetForm();
     }
-  }, [dispatch, getblogId, blogName, blogCateory, blogDescription]);
+  }, [dispatch, getblogId, blogName, blogCateory, blogDescription, blogImages]);
 
   const img = [];
   uploadState.forEach((image) => {
@@ -57,7 +57,7 @@ const AddBlog = () => {
 
   useEffect(() => {
     formik.values.images = img;
-  }, [blogImages]);
+  }, [blogImages, img]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -89,7 +89,7 @@ const AddBlog = () => {
 
   useEffect(() => {
     dispatch(getAllBlogCategories());
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return (

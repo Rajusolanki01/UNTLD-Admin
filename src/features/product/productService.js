@@ -33,7 +33,6 @@ const updateProduct = async (productId, values) => {
       `product/${productId}`,
       values
     );
-    console.log(response);
     return response.result;
   } catch (error) {
     throw error;

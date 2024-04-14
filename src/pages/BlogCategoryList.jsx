@@ -46,7 +46,7 @@ const BlogCategoryList = () => {
 
   useEffect(() => {
     dispatch(getAllBlogCategories());
-  }, []);
+  }, [dispatch]);
 
   const handleModalOk = () => {
     dispatch(

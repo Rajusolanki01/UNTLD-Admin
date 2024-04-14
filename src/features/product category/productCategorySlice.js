@@ -128,7 +128,6 @@ export const categorySlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        console.log(action.payload);
         state.categories = state.categories.filter(
           (category) => category._id !== action.payload
         );

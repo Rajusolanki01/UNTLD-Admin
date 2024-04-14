@@ -89,7 +89,7 @@ const ProductList = () => {
 
   useEffect(() => {
     dispatch(getAllProducts());
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return (

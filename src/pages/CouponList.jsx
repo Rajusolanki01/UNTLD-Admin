@@ -49,7 +49,7 @@ const CouponList = () => {
 
   useEffect(() => {
     dispatch(getAllCoupons());
-  }, []);
+  }, [dispatch]);
 
   const handleModalOk = () => {
     if (!couponName.trim() || !discount || !expiry) {
