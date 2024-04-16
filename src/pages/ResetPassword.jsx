@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { Link, useParams } from "react-router-dom";
 import * as yup from "yup";
@@ -14,8 +14,6 @@ const resetPasswordSchema = yup.object({
 const ResetPassword = () => {
   const { token } = useParams();
   const dispatch = useDispatch();
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const formik = useFormik({
     initialValues: {

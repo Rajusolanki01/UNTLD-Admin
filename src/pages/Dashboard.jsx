@@ -46,7 +46,6 @@ const Dashboard = () => {
   );
   const YearlyOrdersState = useSelector((state) => state.auth?.getYearlyOrder);
   const allOrdersState = useSelector((state) => state.auth?.orders);
-  const [orderData, setOrderData] = useState();
 
   const data1 = [];
 

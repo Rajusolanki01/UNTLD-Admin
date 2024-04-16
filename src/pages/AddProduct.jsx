@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import CustomInput from "../components/CustomInput";
 import ReactQuill from "react-quill";
