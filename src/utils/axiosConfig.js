@@ -68,7 +68,7 @@ axiosClientService.interceptors.response.use(
             return axiosClientService(originalRequest);
           } else {
             removeItem(KEY_ACCESS_TOKEN);
-            window.location.replace("/admin-login");
+            window.location.replace("/");
             return Promise.reject(error);
           }
         })
