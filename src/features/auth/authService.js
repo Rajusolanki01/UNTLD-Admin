@@ -50,7 +50,7 @@ const updateOrder = async (orderId, orderStatus) => {
 const forgotPassword = async (userData) => {
   try {
     const response = await axiosClientService.post(
-      "user/forgot-password-token",
+      "user/admin/forgot-password-token",
       userData
     );
     return response.result;

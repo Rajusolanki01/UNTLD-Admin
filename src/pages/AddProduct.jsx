@@ -50,6 +50,16 @@ const AddProduct = () => {
   const uploadState = useSelector((state) => state.upload.images);
   const productState = useSelector((state) => state.product.singleProduct);
 
+  useEffect(() => {
+    if (getProductId !== undefined) {
+      dispatch(getASingleProducts(getProductId));
+      formik.values.title = productState;
+    } else {
+      dispatch(clearUploadState());
+      formik.resetForm();
+    }
+  }, [dispatch, getProductId, productState]);
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -78,21 +88,6 @@ const AddProduct = () => {
       }, 4000);
     },
   });
-  
-
-  const dispatchProductDataToEdit = useCallback(() => {
-    if (getProductId !== undefined) {
-      dispatch(getASingleProducts(getProductId));
-      formik.values.title = productState;
-    } else {
-      dispatch(clearUploadState());
-      formik.resetForm();
-    }
-  }, [dispatch, formik, getProductId, productState]);
-
-  useEffect(() => {
-    dispatchProductDataToEdit();
-  }, [dispatchProductDataToEdit]);
 
   const colorOptions = [];
   colorState.forEach((color) => {
@@ -101,7 +96,6 @@ const AddProduct = () => {
       value: color.title,
     });
   });
-
 
   const img = [];
   uploadState.forEach((image) => {
