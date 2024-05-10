@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { untldName } from "../assets/assets";
+import { untldNames } from "../assets/assets";
 
 function WelcomePage() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function WelcomePage() {
     >
       <div className="header">
         <div className="py-3 d-flex justify-content-center align-items-center flex-grow-1">
-          <img src={untldName} alt="Brand Name" className="w-50 img-fluid" />
+          <img src={untldNames} alt="Brand Name" className="w-50 img-fluid" />
         </div>
         <h2 className="text-center">Welcome Back Admin</h2>
         <div className="animate">

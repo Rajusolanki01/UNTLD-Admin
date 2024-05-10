@@ -12,7 +12,7 @@ import { GrCatalog, GrCart } from "react-icons/gr";
 import { ImBlog } from "react-icons/im";
 import { SiBrandfolder } from "react-icons/si";
 import { RiCustomerService2Line, RiCouponFill } from "react-icons/ri";
-import { untldName, indiaFlag, Avatar } from "../assets/assets";
+import { untldNames, indiaFlagg, Avatarr } from "../assets/assets";
 import { Layout, Menu, theme } from "antd";
 import { Outlet } from "react-router-dom";
 import ToggleButton from "./ToggleButton";
@@ -85,7 +85,7 @@ const MainLayout = () => {
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
-          <img src={untldName} alt="" className="w-100 img-fluid" />
+          <img src={untldNames} alt="" className="w-100 img-fluid" />
         </div>
 
         <Menu
@@ -231,7 +231,7 @@ const MainLayout = () => {
           </div>
           <div className="gap-15 d-flex align-items-center justify-content-evenly">
             <div className="">
-              <img src={indiaFlag} alt="" />
+              <img src={indiaFlagg} alt="" />
             </div>
             <div className="position-relative">
               <button className="button">
@@ -244,7 +244,7 @@ const MainLayout = () => {
             <div className="gap-2 d-flex align-items-center dropdown">
               <div>
                 <img
-                  src={Avatar}
+                  src={Avatarr}
                   alt="Profile"
                   width={50}
                   height={50}

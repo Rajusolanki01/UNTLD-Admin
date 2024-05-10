@@ -236,17 +236,39 @@ const ViewsEnquiry = () => {
               <div className="d-flex gap-2"></div>
 
               <div className="d-flex gap-3 my-2">
-                <h6 className="mb-3 mt-2">Address :</h6>
+                
                 <div className="ml-1">
-                  {userInfo?.address?.map((address, index) => (
-                    <p key={index}>
-                      <span>{`${address?.street}`}</span> <br />
-                      <span>
-                        {` ${address?.city}, ${address?.state}, ${address?.zipcode}
-                        `}
-                      </span>
-                    </p>
-                  ))}
+                  {userInfo &&
+                    Array.isArray(userInfo.address) &&
+                    userInfo.address.length > 0 &&
+                    userInfo.address.map((item, index) => (
+                      <div className="" key={index}>
+                        <div className="d-flex gap-2">
+                          <h6 className="mb-0">Address :</h6>
+                          <p>{item.address}</p>
+                        </div>
+                        <div className="d-flex gap-2">
+                          <h6 className="mb-0">Appartment :</h6>
+                          <p>{item.appartment}</p>
+                        </div>
+                        <div className="d-flex gap-2">
+                          <h6 className="mb-0">City :</h6>
+                          <p>{item.city}</p>
+                        </div>
+                        <div className="d-flex gap-2">
+                          <h6 className="mb-0">State :</h6>
+                          <p>{item.state}</p>
+                        </div>{" "}
+                        <div className="d-flex gap-2">
+                          <h6 className="mb-0">Pincode :</h6>
+                          <p>{item.pincode}</p>
+                        </div>
+                        <div className="d-flex gap-2">
+                          <h6 className="mb-0">Country :</h6>
+                          <p>{item.country}</p>
+                        </div>
+                      </div>
+                    ))}
                 </div>
               </div>
               <div className="d-flex gap-2">
